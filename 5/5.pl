@@ -4,10 +4,14 @@ use 5.010;
 use strict;
 use warnings;
 
+use lib '../lib';
+use Factor;
+
 my $sum = 1;
 my %a;
 for my $i(1..20)
 {
+    say $i;
     my %r = factor($i);
     foreach my $j ( keys( %r ) ) {
         $a{$j}=0 unless defined($a{$j});
@@ -18,25 +22,3 @@ foreach my $j ( keys( %a ) ) {
     $sum *= $j**$a{$j};
 }
 say $sum;
-
-
-
-sub factor{
-    my $num = shift;
-    my %a = (); 
-    while ($num != 1)
-    {
-        for my $i(2..$num)
-        {
-            if( $num % $i==0)
-            {
-                $a{$i}=0 unless defined($a{$i});
-                $a{$i}++;
-                $num /= $i;
-                last;
-            }
-        }
-    }
-    delete $a{1};
-    return %a;
-}
