@@ -1,0 +1,46 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Web::Scraper;
+use URI;
+use 5.010;
+use utf8;
+binmode STDOUT, ':utf8';
+
+if($#ARGV == -1)
+{
+    system('git log');
+    exit;
+}
+my $n = $ARGV[0];
+my $lang = $ARGV[1] || "ja";
+my $uri;
+my $scraper;
+if ($lang eq "ja")
+{
+    $uri = URI->new("http://odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%20".$n);
+    $scraper = scraper {
+        process '//*[@id="body"]/p','text[]' => 'TEXT';
+        process '//*[@id="content_1_0"]/text()','title[]' => 'TEXT';
+    };
+}else
+{
+    $uri = URI->new("http://projecteuler.net/problem=".$n);
+    $scraper = scraper {
+        process '//*[@id="content"]/div[3]','text[]' => 'TEXT';
+        process '//*[@id="content"]/h2','title[]' => 'TEXT';
+    };
+}
+my $result = $scraper->scrape($uri);
+
+my $title = $result->{title}->[0];
+my $text = join("", @{$result->{text}});
+
+say "||"."-"x100 ;
+say "||"." "x(10).$title;
+say "||"."-"x100 ;
+
+say join("\n", map{ "|| ".$_."." } split(/\./, $text));
+say "||"."-"x100 ;
+

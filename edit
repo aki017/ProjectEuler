@@ -1,0 +1,13 @@
+#!/bin/sh
+ 
+dir=$1
+file="${dir}/${1}.pl"
+
+if [ ! -e $dir ]; then
+    mkdir $dir;
+fi
+
+if [ ! -e $file ]; then
+    cp template/plane.pl $file
+fi
+vim $file 

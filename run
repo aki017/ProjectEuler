@@ -1,0 +1,16 @@
+#!/bin/sh
+ 
+dir=$1
+file="${dir}/${1}.pl"
+
+if [ ! -e $dir ]; then
+    echo "not solved"
+    exit;
+fi
+
+if [ ! -e $file ]; then
+    echo "not solved"
+    exit;
+fi
+cd $dir
+time ./$1.pl 
