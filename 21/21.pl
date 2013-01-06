@@ -14,20 +14,7 @@ for my $i(2..9999)
 }
 say $sum;
 
-sub amicable{
-    my $i = shift;
-    my %factor = factor($i);
-
-    my $a = 1;
-    for my $j(keys %factor)
-    {
-        my $t = 0;
-        $t += $j**$_ for(0..$factor{$j});
-        $a *= $t;
-    }
-    $a-$i;
-}
 sub isAmicable{
     my $i = shift;
-    return $i==amicable(amicable($i)) && $i!=amicable($i);
+    return $i==sumOfDivisor(sumOfDivisor($i)) && $i!=sumOfDivisor($i);
 }
